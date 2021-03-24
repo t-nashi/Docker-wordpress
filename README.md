@@ -16,6 +16,43 @@ Docker で wordpress 環境を構築
 
 
 
+## wordpress(WP)をdockerにインストール後、サイトをローカルで再現
+
+1. 元サイトWPの管理画面で「**All-in-One WP Migration**」プラグインをインストール ＞ 有効化
+2. 「All-in-One WP Migration - エクスポート - ファイル」を実行
+3. docker-WPの管理画面で「**WP Htaccess Editor**」プラグインをインストール ＞ 有効化
+4. 設定 - WP Htaccess Editor で **.htaccess**に以下の記述を追加・保存（WPのファイルアップロード上限設定上げ）  
+\# BEGIN WordPress  
+php_value upload_max_filesize 2000M  
+php_value post_max_size 2000M  
+php_value memory_limit 256M  
+php_value max_execution_time 300  
+php_value max_input_time 300  
+\# END WordPress  
+
+5. docker-WPの管理画面で「**All-in-One WP Migration**」プラグインをインストール ＞ 有効化  
+6. 「All-in-One WP Migration」インポート - 「2」で保存したファイルを選択  
+7. 成功したら画面の手順に従ってパーマネント設定画面で「保存」を実行 ※この時のログインID・PWは元サイトと同じものとなる  
+<br><br>
+※ WordPressを旧エディターに戻すプラグイン「Classic Editor」  
+https://souken-blog.com/2019/04/02/wordpress-plugin-classic-editor/
+
+<br><br><br>
+
+
+
+## wordpress(WP)環境をリセットしたいとき
+1. 「**$ docker-compose down**」でコンテナの停止を行う
+2. 「**$ docker images**」でインストールされたイメージを確認（wordpressとmysqlの確認）
+3. 「**$ docker rmi xxxxx**」でwordpressとmysqlを削除 ※mysqlはIMAGE IDじゃないと消せないかも
+4. 「**$ docker volume ls**」で作成されたボリュームを確認（例： docker_wordpress_db_data）
+5. 「**$ docker rm xxxxx**」でwordpressのボリュームを削除
+6. publicフォルダ削除
+7. 「docker-compose.yml」がある階層で「**docker-compose up -d**」を実行して再度wordpressをインストール
+<br><br><br>
+
+
+
 ## コマンド一覧
 
 <table>
@@ -72,6 +109,19 @@ Docker で wordpress 環境を構築
  <tr>
   <td><b>$ docker rmi xxxxx -f</b></td>
   <td>強制的なイメージの削除 （docker）</td>
+ </tr>
+</table>  
+<br>
+
+
+<table>
+<tr>
+  <td><b>$ docker volume ls</b></td>
+  <td>ボリューム一覧</td>
+ </tr>
+ <tr>
+  <td><b>$ docker volume rm xxxxx</b></td>
+  <td>ボリュームの削除</td>
  </tr>
 </table>  
 <br>
