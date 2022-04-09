@@ -46,7 +46,7 @@ https://souken-blog.com/2019/04/02/wordpress-plugin-classic-editor/
 2. 「**$ docker images**」でインストールされたイメージを確認（wordpressとmysqlの確認）
 3. 「**$ docker rmi xxxxx**」でwordpressとmysqlを削除 ※mysqlはIMAGE IDじゃないと消せないかも
 4. 「**$ docker volume ls**」で作成されたボリュームを確認（例： docker_wordpress_db_data）
-5. 「**$ docker rm xxxxx**」でwordpressのボリュームを削除
+5. 「**$ docker volume rm xxxxx**」でwordpressのボリュームを削除
 6. publicフォルダ削除
 7. 「docker-compose.yml」がある階層で「**docker-compose up -d**」を実行して再度wordpressをインストール
 <br><br><br>
